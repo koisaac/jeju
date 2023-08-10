@@ -1,10 +1,9 @@
 var imgNode = document.getElementById("img");
 var da;
-fetch("/getimage")
+fetch("/image")
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
-        imgNode.src = "files/" + data[0];
         if (data.length != 0) {
             fetch("/ai")
                 .then((response) => response.json())

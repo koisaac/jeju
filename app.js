@@ -99,14 +99,33 @@ app.post("/upload", (req, res) => {
     res.status(200).send('uploaded<script>location.href="/main";</script>');
 });
 
+app.get("/image", (req, res) => {
+    const destinationDir = path.join(__dirname, "files");
+    fs.readdir(destinationDir, (err, files) => {
+        if (err) {
+            console.error("목적지 디렉터리 읽기 오류:", err);
+            res.end();
+        }
+
+        res.json(filse);
+    });
+});
+
 app.get("/getimage", (req, res) => {
     const destinationDir = path.join(__dirname, "files");
     fs.readdir(destinationDir, (err, files) => {
         if (err) {
             console.error("목적지 디렉터리 읽기 오류:", err);
-            return;
+            res.end();
         }
-        res.json(files);
+
+        fs.readFile(files[0], (err, data) => {
+            if (err) {
+                console.log("이미지 읽기 오류", err);
+                res.end();
+            }
+            res.end(data);
+        });
     });
 });
 app.get("/ai", (req, res) => {
