@@ -7,6 +7,17 @@ const path = require("path");
 const fs = require("fs");
 const tf = require("@tensorflow/tfjs-node");
 var model;
+
+try {
+    model = await tf.loadLayersModel(
+        "file://" + __dirname + "/public/model_json/model.json"
+    );
+    model.predict();
+} catch (error) {
+    console.error("Error:", error);
+}
+console.log("Model loaded successfully:", model.summary());
+
 async function predictWithModel(models, imagePath, targetWidth, targetHeight) {
     try {
         // 이미지 불러오기
@@ -68,16 +79,6 @@ app.use(uploadMiddleware);
 app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/", async function (req, res) {
-    try {
-        model = await tf.loadLayersModel(
-            "file://" + __dirname + "/public/model_json/model.json"
-        );
-        model.predict();
-    } catch (error) {
-        console.error("Error:", error);
-    }
-    console.log("Model loaded successfully:", model.summary());
-
     res.sendFile(__dirname + "/public/a.html");
 });
 app.get("/main", function (req, res) {
