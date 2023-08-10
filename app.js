@@ -68,13 +68,6 @@ app.use(uploadMiddleware);
 app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/", async function (req, res) {
-    fs.readdir(destinationDir, (err, files) => {
-        if (err) {
-            console.error("목적지 디렉터리 읽기 오류:", err);
-            return;
-        }
-        console.log(files);
-    });
     try {
         model = await tf.loadLayersModel(
             "file://" + __dirname + "/public/model_json/model.json"
