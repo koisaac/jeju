@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const tf = require("@tensorflow/tfjs-node");
+const { Z_FULL_FLUSH } = require("zlib");
 var model;
 
 (async function start() {
@@ -108,17 +109,26 @@ app.get("/getimage", (req, res) => {
         res.json(files);
     });
 });
-app.get("/ai", async (req, res) => {
+app.get("/ai", (req, res) => {
     var imagePath;
     const destinationDir = path.join(__dirname, "files");
-    fs.readdir(destinationDir, async (err, files) => {
+    fs.readdir(destinationDir, (err, files) => {
         if (err) {
             console.error("목적지 디렉터리 읽기 오류:", err);
             return;
         }
         imagePath = path.join(__dirname, "files", files[0]);
-        const predictions = await predictWithModel(model, imagePath, 512, 512);
-        res.json(predictions);
+        (async () => {
+            const predictions = await predictWithModel(
+                model,
+                imagePath,
+                512,
+                512
+            );
+            return predictions;
+        })().then((predictions) => {
+            res.json(predictions);
+        });
     });
 });
 
