@@ -8,15 +8,17 @@ const fs = require("fs");
 const tf = require("@tensorflow/tfjs-node");
 var model;
 
-try {
-    model = await tf.loadLayersModel(
-        "file://" + __dirname + "/public/model_json/model.json"
-    );
-    model.predict();
-} catch (error) {
-    console.error("Error:", error);
-}
-console.log("Model loaded successfully:", model.summary());
+(async function start() {
+    try {
+        model = await tf.loadLayersModel(
+            "file://" + __dirname + "/public/model_json/model.json"
+        );
+        model.predict();
+    } catch (error) {
+        console.error("Error:", error);
+    }
+    console.log("Model loaded successfully:", model.summary());
+})();
 
 async function predictWithModel(models, imagePath, targetWidth, targetHeight) {
     try {
