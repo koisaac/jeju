@@ -66,7 +66,6 @@ const uploadMiddleware = upload.single("myFile");
 app.use(uploadMiddleware);
 
 app.use("/public", express.static(__dirname + "/public"));
-app.use("/files", express.static(__dirname + "/files"));
 
 app.get("/", async function (req, res) {
     try {
@@ -79,7 +78,6 @@ app.get("/", async function (req, res) {
     }
     console.log("Model loaded successfully:", model.summary());
 
-    clearDestination(() => console.log("start"));
     res.sendFile(__dirname + "/public/a.html");
 });
 app.get("/main", function (req, res) {
