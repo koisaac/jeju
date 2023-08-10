@@ -15,7 +15,7 @@ var model;
         );
         model.predict();
     } catch (error) {
-        console.error("Error:", error);
+        console.error("E:", error);
     }
     console.log("Model loaded successfully:", model.summary());
 })();
@@ -67,6 +67,11 @@ function clearDestination(callback) {
 
         files.forEach((file) => {
             const filePath = path.join(destinationDir, file);
+            try {
+                fs.unlinkSync(filePath);
+            } catch (err) {
+                console.error(err);
+            }
             fs.unlinkSync(filePath); // 디렉터리 내의 각 파일 삭제
         });
 
