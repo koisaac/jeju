@@ -87,6 +87,7 @@ app.get("/main", function (req, res) {
 });
 
 app.post("/upload", (req, res) => {
+    console.log("a");
     console.log(req.file);
     res.status(200).send('uploaded<script>location.href="/main";</script>');
 });
