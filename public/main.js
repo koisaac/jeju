@@ -4,7 +4,7 @@ fetch("/getimage")
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
-        imgNode.src = "public/files/" + data[0];
+        imgNode.src = "files/" + data[0];
         if (data.length != 0) {
             fetch("/ai")
                 .then((response) => response.json())

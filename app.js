@@ -39,13 +39,13 @@ const upload = multer({
         },
         destination(req, file, done) {
             clearDestination(() => {
-                done(null, path.join(__dirname, "public/files"));
+                done(null, path.join(__dirname, "files"));
             });
         },
     }),
 });
 function clearDestination(callback) {
-    const destinationDir = path.join(__dirname, "public/files");
+    const destinationDir = path.join(__dirname, "files");
     fs.readdir(destinationDir, (err, files) => {
         if (err) {
             console.error("목적지 디렉터리 읽기 오류:", err);
@@ -66,6 +66,7 @@ const uploadMiddleware = upload.single("myFile");
 app.use(uploadMiddleware);
 
 app.use("/public", express.static(__dirname + "/public"));
+app.use("/files", express.static(__dirname + "/files"));
 
 app.get("/", async function (req, res) {
     try {
@@ -91,7 +92,7 @@ app.post("/upload", (req, res) => {
 });
 
 app.get("/getimage", (req, res) => {
-    const destinationDir = path.join(__dirname, "public/files");
+    const destinationDir = path.join(__dirname, "files");
     fs.readdir(destinationDir, (err, files) => {
         if (err) {
             console.error("목적지 디렉터리 읽기 오류:", err);
@@ -102,13 +103,13 @@ app.get("/getimage", (req, res) => {
 });
 app.get("/ai", async (req, res) => {
     var imagePath;
-    const destinationDir = path.join(__dirname, "public/files");
+    const destinationDir = path.join(__dirname, "files");
     fs.readdir(destinationDir, async (err, files) => {
         if (err) {
             console.error("목적지 디렉터리 읽기 오류:", err);
             return;
         }
-        imagePath = path.join(__dirname, "public/files", files[0]);
+        imagePath = path.join(__dirname, "files", files[0]);
         const predictions = await predictWithModel(model, imagePath, 512, 512);
         res.json(predictions);
     });
