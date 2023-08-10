@@ -85,16 +85,13 @@ const uploadMiddleware = upload.single("myFile");
 app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/public/a.html");
-});
-app.get("/main", function (req, res) {
     res.sendFile(__dirname + "/public/index.html");
 });
 
 app.post("/upload", uploadMiddleware, (req, res) => {
     console.log("a");
     console.log(req.file);
-    res.status(200).send('uploaded<script>location.href="/main";</script>');
+    res.status(200).send('uploaded<script>location.href="/";</script>');
 });
 
 app.get("/image", (req, res) => {
