@@ -85,7 +85,7 @@ app.use(uploadMiddleware);
 
 app.use("/public", express.static(__dirname + "/public"));
 
-app.get("/", async function (req, res) {
+app.get("/", function (req, res) {
     res.sendFile(__dirname + "/public/a.html");
 });
 app.get("/main", function (req, res) {
